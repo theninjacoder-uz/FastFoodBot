@@ -18,3 +18,4 @@ public class Category extends BaseModel {
         super(name);
     }
 }
+
