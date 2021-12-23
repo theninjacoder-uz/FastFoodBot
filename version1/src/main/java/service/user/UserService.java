@@ -2,10 +2,13 @@ package service.user;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import model.user.User;
+import model.user.UserRole;
 import service.base.BaseService;
+import service.bot.BotService;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -67,12 +70,28 @@ public class UserService implements BaseService<User, String, List<User>> {
     @Override
     public List<User> getList() {
         try {
-            obj.readValue(file, new TypeReference<User>() {
+            obj.readValue(file, new TypeReference<List<User>>() {
             });
         } catch (IOException exception) {
             exception.printStackTrace();
         }
         return null;
+    }
+
+    public void checkAndSave(String chatId, UserRole userRole){
+        User user = getByChatId(chatId);
+        if(user == null){
+            save(new User(chatId, "", new BigDecimal(0), userRole, null));
+        }
+        assert user != null;
+        user.setUserRole(userRole);
+        save(user);
+    }
+
+    public UserRole get(String chatId, UserRole userRole){
+        User user = getByChatId(chatId);
+        assert user != null;
+        return user.getUserRole();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package service.bot;
 
+import model.user.UserRole;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -8,6 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import service.user.UserService;
 
 import java.util.Map;
 import java.util.Stack;
@@ -20,6 +22,7 @@ import static utils.TelegramUtils.*;
 
 public class FastBot extends TelegramLongPollingBot {
     Map<String, Stack<SendMessage>> userState;
+    UserService userService = new UserService();
     @Override
     public void onUpdateReceived(Update update) {
 
@@ -28,7 +31,11 @@ public class FastBot extends TelegramLongPollingBot {
             Message message = update.hasMessage() ? update.getMessage() : update.getCallbackQuery().getMessage();
             String chatId = message.getChatId().toString();
             if(message.getText().equals(START)){
+                userService.checkAndSave(chatId, UserRole.CONSUMER);
                 customExecute(botMenu(message), null, null, null);
+            }
+            else if(message.getText().equals(BOT_TOKEN)){
+                userService.checkAndSave(chatId, UserRole.ADMIN);
             }
         });
     }

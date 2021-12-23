@@ -25,6 +25,9 @@ public class User extends BaseModel {
     @JsonProperty("cashback")
     private BigDecimal cashback;
 
+    @JsonProperty("userRole")
+    private UserRole userRole;
+
     @JsonProperty("location")
     private UserLocation userLocation;
 
