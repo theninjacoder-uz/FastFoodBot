@@ -1,5 +1,45 @@
 package utils;
 
 public interface Const {
-
+    String START = "/start";
+    String MY_CARDS = "\uD83D\uDCB3 my cashback";
+    String SEND_PHONE_NUMBER = "\uD83D\uDCDE share contact";
+    String BACK = "◀️ back";
+    String ALL_CATEGORIES = "\uD83C\uDFEA categories";
+    String CART = "\uD83D\uDED2 basket";
+    String SETTINGS = "⚙️ settings";
+    String SHOPPING_HISTORY = "\uD83D\uDDD3 shopping history";
+    String EDIT_PHONE_NUMBER = "\uD83D\uDCDE new phone number";
+    String ADD_NEW_CARD = "\uD83D\uDCB3 add new card";
+    String CANCEL = "❌";
+    String NEXT = "➡️";
+    String PREVIOUS ="⬅️";
+    String CART_MENU = "\uD83D\uDED2MENU";
+    String INCREMENT = "➕";
+    String DECREMENT = "➖";
+    String PRODUCT_ID = "PRODUCT_ID";
+    String MAIN_MENU = "MAIN_MENU";
+    String HOME_MENU = "Home menu";
+    String PRODUCT_IN_CART = "PRODUCT_IN_CART";
+    String GETTING_USER_CARD_NUMBER_SEND = "GETTING_USER_CARD_NUMBER_SEND";
+    String GETTING_USER_CARD_EXPIRATION_SEND = "GETTING_USER_CARD_EXPIRATION_SEND";
+    String ADD_NEW_CARD_MENU = "ADD_NEW_CARD_MENU";
+    String CARD_SETTINGS_DELETE_MENU = "CARD_SETTINGS_DELETE_MENU";
+    String INCREMENT_PRODUCT_IN_CART = "➕PRODUCT_IN_CART" ;
+    String DECREMENT_PRODUCT_IN_CART = "➖PRODUCT_IN_CART" ;
+    String  DECREASE_PRODUCT_COUNT = "decrease_product_count";
+    String  INCREASE_PRODUCT_COUNT = "increase_product_count";
+    String  COUNT_PRODUCT = "count_product";
+    String BUY_PRODUCT = "buy";
+    String ADD_PRODUCT_TO_CART = "\uD83D\uDED2 Add to Cart";
+    String PRODUCT_ADD_CART = "~";
+    String CANCEL_PRODUCT_IN_CART = "❌PRODUCT_IN_CART" ;
+    String MAIN_MENU_COMMAND = "/main";
+    String MY_CARDS_COMMAND = "/mycards";
+    String MY_ORDERS_COMMAND = "/myorders";
+    String BUY_FROM_CART = "buy_from_cart";
+    String BUY = "buy";
+    String PRODUCT_INFO = "prPhot";
+    String PHONE_REGEX = "\"^(?:[0-9]●?){12}$\"";
+    String HISTORY_DELETE = "~history_delete~";
 }

@@ -7,6 +7,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Map;
 import java.util.Stack;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static utils.TelegramUtils.*;
 
@@ -14,9 +16,12 @@ public class FastBot extends TelegramLongPollingBot {
     Map<String, Stack<SendMessage>> userState;
     @Override
     public void onUpdateReceived(Update update) {
-        Message message = update.hasMessage() ? update.getMessage() : update.getCallbackQuery().getMessage();
-        String chatId = message.getChatId().toString();
 
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        executorService.execute(()->{
+            Message message = update.hasMessage() ? update.getMessage() : update.getCallbackQuery().getMessage();
+            String chatId = message.getChatId().toString();
+        });
     }
 
     @Override
