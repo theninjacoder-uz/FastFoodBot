@@ -71,12 +71,12 @@ public class UserService implements BaseService<User, String> {
     @Override
     public List<User> getList() {
         try {
-            return objectMapper.readValue(file, new TypeReference<List<User>>() {
+            return obj.readValue(file, new TypeReference<List<User>>() {
             });
         } catch (IOException exception) {
             exception.printStackTrace();
+            return new ArrayList<>();
         }
-        return null;
     }
 
     public void checkAndSave(String chatId, UserRole userRole){

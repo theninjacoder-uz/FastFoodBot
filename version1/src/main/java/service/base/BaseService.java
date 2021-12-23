@@ -13,7 +13,7 @@ public interface BaseService<T, R> {
     R edit(T item);
     T getByUUId(UUID id);
     T getByChatId(String id);
-    List<T> getList() throws IOException;
+    List<T> getList();
     List<T> getListByUUID(UUID id);
     List<T> getListByChatId(String id);
 
