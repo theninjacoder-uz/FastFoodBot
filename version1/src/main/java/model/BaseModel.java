@@ -1,20 +1,27 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 @Data
 public abstract class BaseModel {
+    @JsonProperty("id")
     private final UUID id;
-    private final LocalDateTime createdAt;
+
+    @JsonProperty("createdAt")
+    private final String createdAt;
+
+    @JsonProperty("isActive")
     private boolean isActive;
+
+    @JsonProperty("name")
     private String name;
 
     {
-        LocalDateTime time = LocalDateTime.now();
         id = UUID.randomUUID();
-        createdAt = time;
+        createdAt = String.valueOf(LocalDateTime.now());
         isActive = true;
     }
 

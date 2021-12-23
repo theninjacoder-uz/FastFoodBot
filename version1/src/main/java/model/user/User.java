@@ -1,20 +1,22 @@
 package model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.*;
 import model.BaseModel;
 
 import java.math.BigDecimal;
 
+@EqualsAndHashCode(callSuper = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString(callSuper = true)
+@JsonPropertyOrder({"id", "chatId", "name", "isActive", "phoneNumber", "cashback", "userRole", "location", "createdAt"})
 public class User extends BaseModel {
     @JsonProperty("chatId")
     private String chatId;

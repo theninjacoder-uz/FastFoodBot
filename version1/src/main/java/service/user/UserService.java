@@ -1,6 +1,7 @@
 package service.user;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import model.user.User;
 import model.user.UserRole;
 import service.base.BaseService;
@@ -16,10 +17,10 @@ import java.util.UUID;
 import static utils.BotResponse.*;
 import static utils.DatabasePath.USER_PATH;
 
-public class UserService implements BaseService<User, String, List<User>> {
+public class UserService implements BaseService<User, String> {
 
     File file = new File(USER_PATH);
-
+    ObjectMapper objectMapper = new ObjectMapper();
     @Override
     public String save(User item) {
         List<User> users = getList();
@@ -70,7 +71,7 @@ public class UserService implements BaseService<User, String, List<User>> {
     @Override
     public List<User> getList() {
         try {
-            obj.readValue(file, new TypeReference<List<User>>() {
+            return objectMapper.readValue(file, new TypeReference<List<User>>() {
             });
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -102,10 +103,5 @@ public class UserService implements BaseService<User, String, List<User>> {
     @Override
     public List<User> getListByChatId(String id) {
         return null;
-    }
-
-    @Override
-    public void write(File file, List<User> list) {
-        BaseService.super.write(file, list);
     }
 }
