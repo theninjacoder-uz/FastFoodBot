@@ -79,20 +79,35 @@ public class UserService implements BaseService<User, String> {
         }
     }
 
-    public void checkAndSave(String chatId, UserRole userRole){
+    public UserRole checkAndSave(String chatId, UserRole role){
         User user = getByChatId(chatId);
         if(user == null){
-            save(new User(chatId, "", new BigDecimal(0), userRole, null));
+            save(new User(chatId, "", new BigDecimal(0), role, null));
+            return null;
         }
-        assert user != null;
-        user.setUserRole(userRole);
         save(user);
+        if(user.getUserRole().equals(UserRole.ADMIN)) return UserRole.ADMIN;
+
+        else if (!user.getPhoneNumber().isEmpty() || user.getPhoneNumber() != null)
+            return null;
+
+        return UserRole.CONSUMER;
     }
 
-    public UserRole get(String chatId, UserRole userRole){
+    public UserRole get(String chatId){
         User user = getByChatId(chatId);
         assert user != null;
         return user.getUserRole();
+    }
+
+    public String savePhone(String phoneNumber, String chatId){
+        if(phoneNumber.matches("^(?:[0-9]●?){12}$")){
+            User user = getByChatId(chatId);
+            user.setPhoneNumber(phoneNumber);
+            return SUCCESSFULLY_REGISTERED;
+        }
+
+        return INVALID_PHONE_NUMBER;
     }
 
     @Override

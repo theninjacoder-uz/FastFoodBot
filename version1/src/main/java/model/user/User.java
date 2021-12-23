@@ -31,7 +31,7 @@ public class User extends BaseModel {
     private UserRole userRole;
 
     @JsonProperty("location")
-    private UserLocation userLocation;
+    private UserLocation userLocation = new UserLocation();
 
     public User(String name, String chatId, String phoneNumber) {
         super(name);
