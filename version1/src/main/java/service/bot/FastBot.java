@@ -19,6 +19,7 @@ import java.util.concurrent.Executors;
 
 import static service.bot.BotService.*;
 import static utils.BotResponse.PHONE_NUMBER_REQUEST;
+import static utils.BotResponse.SUCCESSFULLY_REGISTERED;
 import static utils.Const.*;
 import static utils.TelegramUtils.*;
 
@@ -35,21 +36,22 @@ public class FastBot extends TelegramLongPollingBot {
 
             // Defining user States
             if(message.hasContact() || userState.get(chatId) != null && userState.get(chatId).peek().getText().equals(PHONE_NUMBER_REQUEST)){
-                String s = userService.savePhone(message.getContact().getPhoneNumber(), chatId);
-                customExecute(new SendMessage(chatId, s), null, null, null);
+                String phoneNumber = message.hasContact() ? message.getContact().getPhoneNumber() : message.getText();
+                String s = userService.savePhone(phoneNumber, chatId);
+                if(s.equals(SUCCESSFULLY_REGISTERED))
+                    userState.get(chatId).push(new SendMessage(chatId, s));
             }
 
-            if(message.getText().equals(START)){
+            else if(message.getText().equals(START)){
                 UserRole userRole = userService.checkAndSave(chatId, UserRole.CONSUMER);
-                if(userRole == null) {
-                    Stack<SendMessage> stateStack = new Stack<>();
-                    stateStack.push(getRegister(message));
-                    userState.put(chatId, stateStack);
 
-                }
-                else{
-                    Stack<SendMessage> stateStack = userState.get(chatId);
-                    stateStack.push(botMenu(message));
+                userState.get(chatId).clear();
+                Stack<SendMessage> stateStack = userState.get(chatId);
+                stateStack.push(botMenu(message));
+                userState.put(chatId, stateStack);
+
+                if(userRole == null) {
+                    stateStack.push(getRegister(message));
                     userState.put(chatId, stateStack);
                 }
             }

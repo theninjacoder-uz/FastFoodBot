@@ -1,26 +1,31 @@
 package service.user;
 
+import com.twilio.rest.api.v2010.account.Message;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.twilio.Twilio;
+import com.twilio.type.PhoneNumber;
 import model.user.User;
 import model.user.UserRole;
 import service.base.BaseService;
-import service.bot.BotService;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import static utils.BotResponse.*;
 import static utils.DatabasePath.USER_PATH;
+import static utils.TelegramUtils.*;
 
 public class UserService implements BaseService<User, String> {
 
     File file = new File(USER_PATH);
     ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     public String save(User item) {
         List<User> users = getList();
@@ -79,14 +84,14 @@ public class UserService implements BaseService<User, String> {
         }
     }
 
-    public UserRole checkAndSave(String chatId, UserRole role){
+    public UserRole checkAndSave(String chatId, UserRole role) {
         User user = getByChatId(chatId);
-        if(user == null){
+        if (user == null) {
             save(new User(chatId, "", new BigDecimal(0), role, null));
             return null;
         }
         save(user);
-        if(user.getUserRole().equals(UserRole.ADMIN)) return UserRole.ADMIN;
+        if (user.getUserRole().equals(UserRole.ADMIN)) return UserRole.ADMIN;
 
         else if (!user.getPhoneNumber().isEmpty() || user.getPhoneNumber() != null)
             return null;
@@ -94,20 +99,29 @@ public class UserService implements BaseService<User, String> {
         return UserRole.CONSUMER;
     }
 
-    public UserRole get(String chatId){
+    public UserRole get(String chatId) {
         User user = getByChatId(chatId);
         assert user != null;
         return user.getUserRole();
     }
 
-    public String savePhone(String phoneNumber, String chatId){
-        if(phoneNumber.matches("^(?:[0-9]●?){12}$")){
-            User user = getByChatId(chatId);
-            user.setPhoneNumber(phoneNumber);
-            return SUCCESSFULLY_REGISTERED;
-        }
+    public String savePhone(String phoneNumber, String chatId) {
+        User user = getByChatId(chatId);
+        user.setPhoneNumber(phoneNumber);
+        save(user);
+        return SUCCESSFULLY_REGISTERED;
 
-        return INVALID_PHONE_NUMBER;
+//        return INVALID_PHONE_NUMBER;
+    }
+
+    public String sendSmsCode(String phoneNumber) {
+        Random r = new Random();
+        String code =  String.format("%04d", r.nextInt(9999));
+
+            Twilio.init(ACCOUNT_SID, ACCOUNT_TOKEN);
+        Message.creator(new PhoneNumber(phoneNumber), new PhoneNumber(ACCOUNT_PHONE),   "Your verification code is " + code + "\n do not show anybody !!").create();
+
+        return code;
     }
 
     @Override
