@@ -2,13 +2,14 @@ package utils;
 
 public interface Const {
     String START = "/start";
-    String MY_CARDS = "\uD83D\uDCB3 my cashback";
+    String CASHBACK = "\uD83D\uDCB3 my cashback";
     String SEND_PHONE_NUMBER = "\uD83D\uDCDE share contact";
     String BACK = "◀️ back";
-    String ALL_CATEGORIES = "\uD83C\uDFEA categories";
-    String CART = "\uD83D\uDED2 basket";
+    String MAKE_ORDER = "\uD83C\uDFEA Make order";
+    String BASKET = "\uD83D\uDED2 basket";
     String SETTINGS = "⚙️ settings";
-    String SHOPPING_HISTORY = "\uD83D\uDDD3 shopping history";
+    String ORDER_HISTORY = "Orders history";
+    String GET_CONTACT = "Contact with us";
     String EDIT_PHONE_NUMBER = "\uD83D\uDCDE new phone number";
     String ADD_NEW_CARD = "\uD83D\uDCB3 add new card";
     String CANCEL = "❌";

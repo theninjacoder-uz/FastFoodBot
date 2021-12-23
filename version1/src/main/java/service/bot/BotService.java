@@ -11,7 +11,7 @@ import java.util.List;
 import static utils.Const.*;
 
 public class BotService {
-    public static SendMessage menu(Message message){
+    public static SendMessage botMenu(Message message){
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboardRows = new ArrayList<>();
 
@@ -19,18 +19,18 @@ public class BotService {
         replyKeyboardMarkup.setResizeKeyboard(true);
 
         KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(ALL_CATEGORIES);
-        keyboardRow.add(CART);
+        keyboardRow.add(MAKE_ORDER);
         keyboardRows.add(keyboardRow);
 
         KeyboardRow keyboardRow1 = new KeyboardRow();
 
-        keyboardRow1.add(SETTINGS);
-        keyboardRow1.add(SHOPPING_HISTORY);
+        keyboardRow1.add(ORDER_HISTORY);
+        keyboardRow1.add(CASHBACK);
         keyboardRows.add(keyboardRow1);
 
         KeyboardRow keyboardRow2 = new KeyboardRow();
-        keyboardRow2.add(REGISTER);
+        keyboardRow2.add(SETTINGS);
+        keyboardRow2.add(GET_CONTACT);
         keyboardRows.add(keyboardRow2);
 
         SendMessage sendMessage = new SendMessage(message.getChatId().toString(), HOME_MENU);
