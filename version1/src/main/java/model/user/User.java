@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import model.BaseModel;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +21,9 @@ public class User extends BaseModel {
 
     @JsonProperty("phoneNumber")
     private String phoneNumber;
+
+    @JsonProperty("cashback")
+    private BigDecimal cashback;
 
     @JsonProperty("location")
     private UserLocation userLocation;
