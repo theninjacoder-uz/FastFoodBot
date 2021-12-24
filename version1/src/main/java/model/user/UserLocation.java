@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserLocation {
     @JsonProperty("latitude")
-    private float latitude;
+    private double latitude;
     @JsonProperty("longitude")
-    private float longitude;
+    private double longitude;
 }

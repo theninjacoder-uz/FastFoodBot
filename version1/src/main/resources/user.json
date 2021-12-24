@@ -10,4 +10,16 @@
     "longitude" : 0.0
   },
   "createdAt" : "2021-12-23T17:48:55.196036800"
+}, {
+  "id" : "0d389c64-6d93-43af-b57c-805f87478c9f",
+  "chatId" : "686953833",
+  "isActive" : true,
+  "phoneNumber" : "+998933509640",
+  "cashback" : 0,
+  "userRole" : "CONSUMER",
+  "location" : {
+    "latitude" : 0.0,
+    "longitude" : 0.0
+  },
+  "createdAt" : "2021-12-24T00:40:02.945367500"
 } ]

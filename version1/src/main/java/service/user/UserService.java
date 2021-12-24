@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twilio.Twilio;
 import com.twilio.type.PhoneNumber;
 import model.user.User;
+import model.user.UserLocation;
 import model.user.UserRole;
 import service.base.BaseService;
 
@@ -24,7 +25,6 @@ import static utils.TelegramUtils.*;
 public class UserService implements BaseService<User, String> {
 
     File file = new File(USER_PATH);
-    ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public String save(User item) {
@@ -90,13 +90,13 @@ public class UserService implements BaseService<User, String> {
             save(new User(chatId, "", new BigDecimal(0), role, null));
             return null;
         }
-        save(user);
+//        save(user);
         if (user.getUserRole().equals(UserRole.ADMIN)) return UserRole.ADMIN;
 
-        else if (!user.getPhoneNumber().isEmpty() || user.getPhoneNumber() != null)
-            return null;
+        else if (!user.getPhoneNumber().isEmpty() && user.getPhoneNumber() != null)
+            return user.getUserRole();
 
-        return UserRole.CONSUMER;
+        return null;
     }
 
     public UserRole get(String chatId) {
@@ -109,19 +109,27 @@ public class UserService implements BaseService<User, String> {
         User user = getByChatId(chatId);
         user.setPhoneNumber(phoneNumber);
         save(user);
-        return SUCCESSFULLY_REGISTERED;
+        return PHONE_SUCCESSFULLY_SAVED;
 
 //        return INVALID_PHONE_NUMBER;
     }
 
     public String sendSmsCode(String phoneNumber) {
         Random r = new Random();
-        String code =  String.format("%04d", r.nextInt(9999));
+        String code = String.format("%04d", r.nextInt(9999));
 
-            Twilio.init(ACCOUNT_SID, ACCOUNT_TOKEN);
-        Message.creator(new PhoneNumber(phoneNumber), new PhoneNumber(ACCOUNT_PHONE),   "Your verification code is " + code + "\n do not show anybody !!").create();
+        Twilio.init(ACCOUNT_SID, ACCOUNT_TOKEN);
+        Message.creator(new PhoneNumber(phoneNumber), new PhoneNumber(ACCOUNT_PHONE), "Your verification code is " + code + "\n do not show anybody !!").create();
 
         return code;
+    }
+
+    public UserLocation checkAndGetLocation(String chatId, double latitude, double longitude) {
+        User user = getByChatId(chatId);
+        user.setUserLocation(new UserLocation(latitude, longitude));
+        save(user);
+        return user.getUserLocation();
+
     }
 
     @Override
