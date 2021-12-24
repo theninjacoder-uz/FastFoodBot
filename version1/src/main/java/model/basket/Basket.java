@@ -35,7 +35,7 @@ public class Basket extends BaseModel {
         maxQuantity = 20;
     }
 
-    public Basket(String name, String userId, String productName, int quantity, BigDecimal price, int maxQuantity) {
+    public Basket(String name, String userId, String productName, int quantity, BigDecimal price) {
         super(name);
         this.userId = userId;
         this.productName = productName;
